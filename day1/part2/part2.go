@@ -2,9 +2,7 @@ package main
 
 import (
 	"fmt"
-	"math"
 	"path/filepath"
-	"sort"
 	"strconv"
 	"strings"
 
@@ -13,7 +11,7 @@ import (
 
 func main() {
 
-	data := utils.ReadLines(filepath.Join(".", "input.txt"))
+	data := utils.ReadLines(filepath.Join("..", "input.txt"))
 
 	left := make([]int, len(data))
 	right := make([]int, len(data))
@@ -34,22 +32,21 @@ func main() {
 		}
 	}
 
-	sort.Ints(left)
-	sort.Ints(right)
+	count := make(map[float64]int)
+	for _, left_num := range left {
 
-	sums := make([]float64, len(left))
-
-	for idx, num := range left {
-		sums[idx] = math.Abs(float64(num - right[idx]))
+		for _, right_num := range right {
+			if (right_num == left_num) {
+				count[float64(left_num)] += 1
+			}
+		}
 	}
 
 	var sum float64 = 0
 
-	for idx, values := range sums {
-		sum += values
+	for key, value := range count {
+		sum += key * float64(value)
 	}
 
 	fmt.Printf("%f\n", sum)
 }
-
-

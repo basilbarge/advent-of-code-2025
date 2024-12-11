@@ -13,7 +13,7 @@ import (
 
 func main() {
 
-	data := utils.ReadLines(filepath.Join(".", "input.txt"))
+	data := utils.ReadLines(filepath.Join("..", "input.txt"))
 
 	left := make([]int, len(data))
 	right := make([]int, len(data))
@@ -45,7 +45,7 @@ func main() {
 
 	var sum float64 = 0
 
-	for idx, values := range sums {
+	for _, values := range sums {
 		sum += values
 	}
 

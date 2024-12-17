@@ -1,8 +1,10 @@
 package main
 
 import (
-	util "github.com/aoc2024/utils"
 	"fmt"
+	"regexp"
+
+	util "github.com/aoc2024/utils"
 )
 
 func main() {
@@ -10,6 +12,9 @@ func main() {
 
 	verticalLines := make([]string, len(horizontalLines[0]))
 
+	regexp.MustCompile("XMAS|SAMX")
+
+	fmt.Println("Horizontal")
 	for _, line := range horizontalLines {
 
 		for idx, char := range line {
@@ -18,6 +23,7 @@ func main() {
 		fmt.Println(line)
 	}
 
+	fmt.Println("Vertical")
 	for _, vertLine := range verticalLines {
 		fmt.Println(vertLine)
 	}

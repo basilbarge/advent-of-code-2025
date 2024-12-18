@@ -34,13 +34,13 @@ func main() {
 	}
 
 	for i := 0; i < numDiagonals; i++ {
-		count := i
+		count := min(i, len(verticalLines) - 1)
 		forwardDiagonal[i] = string(horizontalLines[min(i, len(horizontalLines) - 1)][max(0, i - len(verticalLines))])
 
 		fmt.Printf("Iteration: %d\n", i)
 		for count != 0 {
 			y := min(count, len(horizontalLines) - 1) - 1
-			x := min(max(0, count - len(verticalLines)) + 1 + count, len(verticalLines) - 1)
+			x := min(max(0, count - len(verticalLines)) + 1 + i, len(verticalLines) - 1)
 			fmt.Printf("Forward diag y: %d, Forward diag x: %d\n", y, x)
 			forwardDiagonal[i] += string(horizontalLines[x][y])
 			count--

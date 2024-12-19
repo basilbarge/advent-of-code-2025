@@ -16,7 +16,7 @@ func main() {
 	forwardDiagonal := make([]string, numDiagonals)
 	backwardDiagonal := make([]string, numDiagonals)
 
-	regexp.MustCompile("XMAS|SAMX")
+	keyWord := regexp.MustCompile("XMAS|SAMX")
 
 	fmt.Println("Horizontal")
 	for _, line := range horizontalLines {
@@ -79,4 +79,41 @@ func main() {
 	for _, backDiag := range backwardDiagonal {
 		fmt.Println(backDiag)
 	}
+
+	var matches []string
+
+	for _, horizontal := range horizontalLines {
+		match := keyWord.FindAll([]byte(horizontal), -1)	
+
+		for _, mat := range match {
+			matches = append(matches, string(mat))
+		}
+	}
+
+	for _, vertical := range verticalLines {
+		match := keyWord.FindAll([]byte(vertical), -1)	
+
+		for _, mat := range match {
+			matches = append(matches, string(mat))
+		}
+	}
+
+
+	for _, forward := range forwardDiagonal {
+		match := keyWord.FindAll([]byte(forward), -1)	
+
+		for _, mat := range match {
+			matches = append(matches, string(mat))
+		}
+	}
+
+	for _, backward := range backwardDiagonal {
+		match := keyWord.FindAll([]byte(backward), -1)	
+
+		for _, mat := range match {
+			matches = append(matches, string(mat))
+		}
+	}
+
+	fmt.Println(len(matches))
 }

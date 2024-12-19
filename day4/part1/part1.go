@@ -58,8 +58,8 @@ func main() {
 
 	for idx := 0; idx < len(horizontalLines)+len(verticalLines)-1; idx++ {
 		xcount := len(verticalLines) - 1
-		if idx > len(horizontalLines) {
-			xcount = xcount - (idx - len(horizontalLines))
+		if idx > len(horizontalLines) - 1 {
+			xcount = xcount - (idx - len(horizontalLines) + 1)
 		}
 		ycount := min(idx, len(horizontalLines) - 1)
 

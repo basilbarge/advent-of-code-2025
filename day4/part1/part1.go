@@ -16,11 +16,8 @@ func main() {
 	forwardDiagonal := make([]string, numDiagonals)
 	backwardDiagonal := make([]string, numDiagonals)
 
-	forKeyWord := regexp.MustCompile(`XMAS`)
-	backKeyWord := regexp.MustCompile(`SAMX`)
 
 	for _, line := range horizontalLines {
-
 		for idx, char := range line {
 			verticalLines[idx] += string(char)
 		}
@@ -66,57 +63,33 @@ func main() {
 
 	var matches []string
 
-	for _, horizontal := range horizontalLines {
-		forMatch := forKeyWord.FindAll([]byte(horizontal), -1)
-		backMatch := backKeyWord.FindAll([]byte(horizontal), -1)
+	matches = append(matches, FindMatches(horizontalLines)...)
+	matches = append(matches, FindMatches(verticalLines)...)
+	matches = append(matches, FindMatches(forwardDiagonal)...)
+	matches = append(matches, FindMatches(backwardDiagonal)...)
 
-		for _, mat := range forMatch {
-			matches = append(matches, string(mat))
-		}
-
-		for _, mat := range backMatch {
-			matches = append(matches, string(mat))
-		}
-	}
-
-	for _, vertical := range verticalLines {
-		forMatch := forKeyWord.FindAll([]byte(vertical), -1)
-		backMatch := backKeyWord.FindAll([]byte(vertical), -1)
-
-		for _, mat := range forMatch {
-			matches = append(matches, string(mat))
-		}
-
-		for _, mat := range backMatch {
-			matches = append(matches, string(mat))
-		}
-	}
-
-	for _, forward := range forwardDiagonal {
-		forMatch := forKeyWord.FindAll([]byte(forward), -1)
-		backMatch := backKeyWord.FindAll([]byte(forward), -1)
-
-		for _, mat := range forMatch {
-			matches = append(matches, string(mat))
-		}
-
-		for _, mat := range backMatch {
-			matches = append(matches, string(mat))
-		}
-	}
-
-	for _, backward := range backwardDiagonal {
-		forMatch := forKeyWord.FindAll([]byte(backward), -1)
-		backMatch := backKeyWord.FindAll([]byte(backward), -1)
-
-		for _, mat := range forMatch {
-			matches = append(matches, string(mat))
-		}
-
-		for _, mat := range backMatch {
-			matches = append(matches, string(mat))
-		}
-	}
 
 	fmt.Println(len(matches))
+}
+
+func FindMatches(lines []string) []string {
+	var matches []string 
+
+	forKeyWord := regexp.MustCompile(`XMAS`)
+	backKeyWord := regexp.MustCompile(`SAMX`)
+
+	for _, line := range lines {
+		forMatch := forKeyWord.FindAll([]byte(line), -1)
+		backMatch := backKeyWord.FindAll([]byte(line), -1)
+
+		for _, mat := range forMatch {
+			matches = append(matches, string(mat))
+		}
+
+		for _, mat := range backMatch {
+			matches = append(matches, string(mat))
+		}
+	}
+
+	return matches
 }

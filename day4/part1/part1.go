@@ -14,7 +14,7 @@ func main() {
 	numDiagonals := (len(horizontalLines) + len(horizontalLines[0]) - 1)
 
 	forwardDiagonal := make([]string, numDiagonals)
-	//backwardDiagonal := make([]string, numDiagonals)
+	backwardDiagonal := make([]string, numDiagonals)
 
 	regexp.MustCompile("XMAS|SAMX")
 
@@ -54,5 +54,29 @@ func main() {
 	fmt.Println("Forward Diagonal")
 	for _, forDiag := range forwardDiagonal {
 		fmt.Println(forDiag)
+	}
+
+	for idx := 0; idx < len(horizontalLines)+len(verticalLines)-1; idx++ {
+		xcount := len(verticalLines) - 1
+		if idx > len(horizontalLines) {
+			xcount = xcount - (idx - len(horizontalLines))
+		}
+		ycount := min(idx, len(horizontalLines) - 1)
+
+		backwardDiagonal[idx] = string(horizontalLines[ycount][xcount])
+
+		xcount -= 1
+		ycount -= 1
+
+		for (ycount >= 0) && (xcount >= 0) {
+			backwardDiagonal[idx] += string(horizontalLines[ycount][xcount])
+			xcount--
+			ycount--
+		}
+	}
+
+	fmt.Println("Backward Diagonal")
+	for _, backDiag := range backwardDiagonal {
+		fmt.Println(backDiag)
 	}
 }

@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	horizontalLines := util.ReadLines("../sample.txt")
+	horizontalLines := util.ReadLines("../input.txt")
 	verticalLines := make([]string, len(horizontalLines[0]))
 
 	numDiagonals := (len(horizontalLines) + len(horizontalLines[0]) - 1)
@@ -16,20 +16,14 @@ func main() {
 	forwardDiagonal := make([]string, numDiagonals)
 	backwardDiagonal := make([]string, numDiagonals)
 
-	keyWord := regexp.MustCompile("XMAS|SAMX")
+	forKeyWord := regexp.MustCompile(`XMAS`)
+	backKeyWord := regexp.MustCompile(`SAMX`)
 
-	fmt.Println("Horizontal")
 	for _, line := range horizontalLines {
 
 		for idx, char := range line {
 			verticalLines[idx] += string(char)
 		}
-		fmt.Println(line)
-	}
-
-	fmt.Println("Vertical")
-	for _, vertLine := range verticalLines {
-		fmt.Println(vertLine)
 	}
 
 	for idx := 0; idx < len(horizontalLines)+len(verticalLines)-1; idx++ {
@@ -51,17 +45,12 @@ func main() {
 		}
 	}
 
-	fmt.Println("Forward Diagonal")
-	for _, forDiag := range forwardDiagonal {
-		fmt.Println(forDiag)
-	}
-
 	for idx := 0; idx < len(horizontalLines)+len(verticalLines)-1; idx++ {
 		xcount := len(verticalLines) - 1
-		if idx > len(horizontalLines) - 1 {
+		if idx > len(horizontalLines)-1 {
 			xcount = xcount - (idx - len(horizontalLines) + 1)
 		}
-		ycount := min(idx, len(horizontalLines) - 1)
+		ycount := min(idx, len(horizontalLines)-1)
 
 		backwardDiagonal[idx] = string(horizontalLines[ycount][xcount])
 
@@ -75,42 +64,56 @@ func main() {
 		}
 	}
 
-	fmt.Println("Backward Diagonal")
-	for _, backDiag := range backwardDiagonal {
-		fmt.Println(backDiag)
-	}
-
 	var matches []string
 
 	for _, horizontal := range horizontalLines {
-		match := keyWord.FindAll([]byte(horizontal), -1)	
+		forMatch := forKeyWord.FindAll([]byte(horizontal), -1)
+		backMatch := backKeyWord.FindAll([]byte(horizontal), -1)
 
-		for _, mat := range match {
+		for _, mat := range forMatch {
+			matches = append(matches, string(mat))
+		}
+
+		for _, mat := range backMatch {
 			matches = append(matches, string(mat))
 		}
 	}
 
 	for _, vertical := range verticalLines {
-		match := keyWord.FindAll([]byte(vertical), -1)	
+		forMatch := forKeyWord.FindAll([]byte(vertical), -1)
+		backMatch := backKeyWord.FindAll([]byte(vertical), -1)
 
-		for _, mat := range match {
+		for _, mat := range forMatch {
+			matches = append(matches, string(mat))
+		}
+
+		for _, mat := range backMatch {
 			matches = append(matches, string(mat))
 		}
 	}
 
-
 	for _, forward := range forwardDiagonal {
-		match := keyWord.FindAll([]byte(forward), -1)	
+		forMatch := forKeyWord.FindAll([]byte(forward), -1)
+		backMatch := backKeyWord.FindAll([]byte(forward), -1)
 
-		for _, mat := range match {
+		for _, mat := range forMatch {
+			matches = append(matches, string(mat))
+		}
+
+		for _, mat := range backMatch {
 			matches = append(matches, string(mat))
 		}
 	}
 
 	for _, backward := range backwardDiagonal {
-		match := keyWord.FindAll([]byte(backward), -1)	
+		forMatch := forKeyWord.FindAll([]byte(backward), -1)
+		backMatch := backKeyWord.FindAll([]byte(backward), -1)
 
-		for _, mat := range match {
+		for _, mat := range forMatch {
+			matches = append(matches, string(mat))
+		}
+
+		for _, mat := range backMatch {
 			matches = append(matches, string(mat))
 		}
 	}

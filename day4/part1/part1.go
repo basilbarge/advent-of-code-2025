@@ -1,4 +1,3 @@
-// Answer should be 2591
 package main
 
 import (

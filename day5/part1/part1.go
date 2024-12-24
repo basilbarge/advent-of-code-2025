@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"slices"
 	"strconv"
 	"strings"
 
@@ -9,7 +10,7 @@ import (
 )
 
 func main() {
-	input := utils.ReadLines("../sample.txt")
+	input := utils.ReadLines("../input.txt")
 
 	var ruleset []string
 	var pages []string
@@ -47,7 +48,49 @@ func main() {
 		rules[key] = append(rules[key], value)
 	}
 
+	sum := 0
+	for _, pageOrder := range pages {
+		pagesInOrder := strings.Split(pageOrder, ",")
 
-	fmt.Printf("Rules\n%d\n", rules)
-	fmt.Printf("Pages\n%s\n", pages)
+		orderValid := PagesAreInOrder(pagesInOrder, rules)
+
+		if orderValid {
+			middlePage, err := strconv.Atoi(pagesInOrder[len(pagesInOrder)/2])
+			if err != nil {
+				panic("Could not convert middle page to integer")
+			}
+
+			sum += middlePage
+		}
+	}
+
+	fmt.Println(sum)
+}
+
+func PagesAreInOrder(pagesInOrder []string, rules map[int][]int) bool {
+	for currentPageIdx, page := range pagesInOrder {
+		pageAsInt, err := strconv.Atoi(page)
+		if err != nil {
+			panic("Could not convert page to integer")
+		}
+
+		pagesAfter, exists := rules[pageAsInt]
+
+		if !exists {
+			continue
+		}
+
+		for i := currentPageIdx - 1; i >= 0; i-- {
+			currentPageAsInt, err := strconv.Atoi(pagesInOrder[i])
+			if err != nil {
+				panic("Could not convert current page to integer")
+			}
+
+			if slices.Contains(pagesAfter, currentPageAsInt) {
+				return false
+			}
+		}
+	}
+
+	return true
 }

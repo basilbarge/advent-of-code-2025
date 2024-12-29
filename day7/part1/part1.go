@@ -15,7 +15,6 @@ const (
 	Multiply Operator = true
 )
 
-
 func main() {
 
 	input := utils.ReadLines("../sample.txt")
@@ -23,7 +22,7 @@ func main() {
 	problems := make(map[int64][]int64)
 
 	for _, line := range input {
-		splitProblem := strings.Split(line, ":")	
+		splitProblem := strings.Split(line, ":")
 		target, err := strconv.ParseInt(splitProblem[0], 10, 32)
 
 		if err != nil {
